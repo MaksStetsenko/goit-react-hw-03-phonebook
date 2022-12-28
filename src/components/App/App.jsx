@@ -13,10 +13,30 @@ import { AppStyled, AppTitleStyled } from './App.styled';
 
 export class App extends Component {
   state = {
-    contacts: defaultContacts,
+    contacts: [],
     filter: '',
   };
 
+  // ==================================================================
+
+  // homework 4 
+
+  componentDidMount() {
+    const contacts =
+      JSON.parse(localStorage.getItem('contacts')) || defaultContacts;
+    this.setState({ contacts });
+  }
+
+  componentDidUpdate(_, prevState) {
+    if (
+      prevState.contacts.length !== 0 &&
+      prevState.contacts.length !== this.state.contacts.length
+    ) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
+  // =================================================================
   isContactExist = abonentName => {
     return this.state.contacts.find(({ name }) => name === abonentName);
   };
